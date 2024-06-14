@@ -1,4 +1,10 @@
 terraform {
+  cloud {
+    organization = "learn_hcp_9"
+    workspaces {
+      name = "learn-terraform-aws"
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -8,9 +14,7 @@ terraform {
 }
 
 provider "aws" {
-  shared_config_files      = ["~/.aws/config"]
-  shared_credentials_files = ["~/.aws/credentials"]
-  profile                  = "terraform"
+  region = "eu-central-1"
 }
 
 resource "aws_instance" "app_server" {
@@ -18,6 +22,6 @@ resource "aws_instance" "app_server" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "terraform"
+    Name = var.instance_name
   }
 }
